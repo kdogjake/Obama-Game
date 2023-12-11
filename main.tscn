@@ -1,0 +1,135 @@
+[gd_scene load_steps=7 format=3 uid="uid://dri0edr25rb4m"]
+
+[ext_resource type="PackedScene" uid="uid://j5oe342jwdj2" path="res://fruit.tscn" id="1_gvm0r"]
+[ext_resource type="Script" path="res://main.gd" id="1_jnegp"]
+[ext_resource type="PackedScene" uid="uid://c15hm51mptr2x" path="res://spawner.tscn" id="3_qkgnu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l4bmj"]
+size = Vector2(31.5, 512)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8s128"]
+size = Vector2(448, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_unbpq"]
+size = Vector2(448, 8)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_jnegp")
+FruitScene = ExtResource("1_gvm0r")
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+collision_mask = 3
+
+[node name="WallLeft" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(336, 352)
+shape = SubResource("RectangleShape2D_l4bmj")
+
+[node name="Boundary" type="ColorRect" parent="Boundaries/WallLeft"]
+offset_left = -16.0
+offset_top = -256.0
+offset_right = 16.0
+offset_bottom = 256.0
+
+[node name="WallRight" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(816, 352)
+shape = SubResource("RectangleShape2D_l4bmj")
+
+[node name="Boundary" type="ColorRect" parent="Boundaries/WallRight"]
+offset_left = -16.0
+offset_top = -256.0
+offset_right = 16.0
+offset_bottom = 256.0
+
+[node name="Floor" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(576, 592)
+shape = SubResource("RectangleShape2D_8s128")
+
+[node name="Boundary" type="ColorRect" parent="Boundaries/Floor"]
+offset_left = -224.0
+offset_top = -16.0
+offset_right = 224.0
+offset_bottom = 16.0
+
+[node name="Spawner" parent="." instance=ExtResource("3_qkgnu")]
+position = Vector2(576, 32)
+
+[node name="Main Camera" type="Camera2D" parent="."]
+position = Vector2(576, 328)
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 72.0
+offset_right = 128.0
+offset_bottom = 95.0
+scale = Vector2(2, 2)
+text = "Score
+"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 136.0
+offset_right = 149.0
+offset_bottom = 159.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+horizontal_alignment = 1
+
+[node name="Top" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top"]
+position = Vector2(576, 100)
+shape = SubResource("RectangleShape2D_unbpq")
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="GameOver" type="Control" parent="Canvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Canvas/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.388235, 0.388235, 0.388235, 0.72549)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Canvas/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" type="Label" parent="Canvas/GameOver/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="Canvas/GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Final Score: "
+horizontal_alignment = 1
+
+[node name="Quit" type="Button" parent="Canvas/GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Quit Game"
+
+[connection signal="body_entered" from="Top" to="." method="_on_top_body_entered"]
+[connection signal="pressed" from="Canvas/GameOver/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://jtdk352dt4hy"]
+
+[ext_resource type="AudioStream" uid="uid://ns1uxk5nu3ix" path="res://Clair-de-Lune.ogg" id="1_3sfcp"]
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_3sfcp")
+autoplay = true

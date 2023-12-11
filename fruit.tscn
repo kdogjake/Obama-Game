@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://j5oe342jwdj2"]
+
+[ext_resource type="Script" path="res://fruit.gd" id="1_ian2x"]
+[ext_resource type="Texture2D" uid="uid://bwnvg44wriyac" path="res://obamasphere.png" id="1_s2jwm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yssi7"]
+radius = 24.0
+
+[node name="Fruit" type="RigidBody2D" groups=["Fruit"]]
+collision_layer = 2
+collision_mask = 3
+mass = 2.0
+max_contacts_reported = 10000
+contact_monitor = true
+script = ExtResource("1_ian2x")
+
+[node name="FruitCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yssi7")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_s2jwm")
+
+[node name="SpawnProt" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="SpawnProt" to="." method="_on_spawn_prot_timeout"]
