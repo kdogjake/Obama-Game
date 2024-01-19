@@ -1,0 +1,1 @@
+An arcade-esque game made in Godot revolving around combining balls of the same sizes and colors to achieve a high-score. This game was made in 2 hours as a fun challenge for myself to use what I've learned about Godot.
